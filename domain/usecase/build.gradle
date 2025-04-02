@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(path: ':domain:model')
+    implementation 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+}

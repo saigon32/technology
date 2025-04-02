@@ -1,0 +1,49 @@
+allprojects {
+	repositories {
+		mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.springframework.boot'
+
+
+	test {
+		useJUnitPlatform()
+	}
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-actuator'
+		implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+		implementation 'org.springframework.boot:spring-boot-starter-webflux'
+		implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.1.0'
+		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+		implementation 'org.postgresql:r2dbc-postgresql'
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+		//runtimeOnly 'com.mysql:mysql-connector-j'
+		compileOnly 'org.projectlombok:lombok:1.18.24'
+		annotationProcessor 'org.projectlombok:lombok:1.18.24'
+		//runtimeOnly 'io.asyncer:r2dbc-mysql'
+		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'io.projectreactor:reactor-test'
+		testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	}
+
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs = [
+			'-Amapstruct.suppressGeneratorTimestamp=true'
+	]
+}
+tasks.named('wrapper') {
+	gradleVersion = '8.2.1'
+}
+
+tasks.bootJar {
+	enabled = false
+}

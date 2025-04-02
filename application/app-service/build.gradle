@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ':infrastructure:entry-points:reactive-web')
+    implementation project(path: ':infrastructure:driven-adapters:jpa-repository')
+    implementation project(path: ':domain:model')
+    implementation project(path: ':domain:usecase')
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.projectlombok:lombok:1.18.28'
+    runtimeOnly('org.springframework.boot:spring-boot-devtools')
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+}
+
+test {
+    useJUnitPlatform()
+}

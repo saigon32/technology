@@ -1,0 +1,20 @@
+pluginManagement {
+    repositories {
+        //mavenLocal()
+        //maven { url '...' }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'technology'
+include 'application:app-service'
+findProject(':application:app-service')?.name = 'app-service'
+include 'domain:model'
+findProject(':domain:model')?.name = 'model'
+include 'domain:usecase'
+findProject(':domain:usecase')?.name = 'usecase'
+include 'infrastructure:driven-adapters:jpa-repository'
+findProject(':infrastructure:driven-adapters:jpa-repository')?.name = 'jpa-repository'
+include 'infrastructure:entry-points:reactive-web'
+findProject(':infrastructure:entry-points:reactive-web')?.name = 'reactive-web'
+
