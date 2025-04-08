@@ -6,6 +6,7 @@ import com.onclass.model.technology.gateways.ITechnologyServicePort;
 import com.onclass.usecase.technology.validations.TechnologyCreateValidations;
 import com.onclass.usecase.technology.validations.TechnologyPageValidations;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class TechnologyUseCase implements ITechnologyServicePort {
     private final ITechnologyPersistencePort persistencePort;
@@ -18,6 +19,11 @@ public class TechnologyUseCase implements ITechnologyServicePort {
         this.persistencePort = persistencePort;
         this.technologyCreateValidations = technologyCreateValidations;
         this.technologyPageValidations = technologyPageValidations;
+    }
+
+    @Override
+    public Mono<Technology> findById(String id) {
+        return persistencePort.findById(Long.parseLong(id));
     }
 
     public Flux<Technology> createTechnologies(Flux<Technology> technologies) {

@@ -4,6 +4,8 @@ import com.onclass.api.helper.ITechnologyHandler;
 import com.onclass.api.helper.mappers.ITechnologyRequestMapper;
 import com.onclass.api.helper.mappers.ITechnologyResponseMapper;
 import com.onclass.api.helper.request.dto.TechnologyRequestDto;
+import com.onclass.jpa.config.DBErrorMessage;
+import com.onclass.jpa.config.DBException;
 import com.onclass.model.technology.gateways.ITechnologyServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,14 @@ public class TechnologyHandlerImpl implements ITechnologyHandler {
     private final ITechnologyResponseMapper technologyResponseMapper;
 
     @Override
+    public Mono<ServerResponse> findById(ServerRequest request) {
+        return technologyService.findById(request.pathVariable("id"))
+                .flatMap(technologyResponseDtos ->
+                        ServerResponse.ok().bodyValue(technologyResponseDtos))
+                .switchIfEmpty(Mono.error(new DBException(DBErrorMessage.TECHNOLOGY_NOT_FOUND)));
+    }
+
+    @Override
     public Mono<ServerResponse> createTechnologies(ServerRequest request) {
         return request.bodyToFlux(TechnologyRequestDto.class)
                 .map(technologyRequestMapper::toDomain)
@@ -31,6 +41,7 @@ public class TechnologyHandlerImpl implements ITechnologyHandler {
                 .flatMap(technologyResponseDtos ->
                         ServerResponse.ok().bodyValue(technologyResponseDtos));
     }
+
     @Override
     public Mono<ServerResponse> listTechnologies(ServerRequest request) {
         int page = Integer.parseInt(request.queryParam(PAGE).orElse(P));

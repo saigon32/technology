@@ -17,7 +17,8 @@ public class RouterRest {
     @AddRouterRestInfo
     public RouterFunction<ServerResponse> routerFunction(TechnologyHandlerImpl handler) {
         return route(GET("/technologiesPaged"), handler::listTechnologies)
-                .andRoute(POST("/technologies"), handler::createTechnologies);
+                .andRoute(POST("/technologies"), handler::createTechnologies)
+                .andRoute(GET("/findById/{id}"), handler::findById);
     }
 
 }

@@ -21,8 +21,16 @@ public class TechnologyR2dbcAdapter implements ITechnologyPersistencePort {
     private final ITechnologyEntityMapper technologyEntityMapper;
 
     @Override
-    public Mono<Technology> saveTechnology(Technology technology) {
+    public Mono<Technology> findById(Long id) {
+        return technologyRepository.findById(id)
+                .flatMap(technologyEntity -> Mono.just(technologyEntityMapper.toModel(technologyEntity)))
+                .switchIfEmpty(Mono.error(new DBException(DBErrorMessage.TECHNOLOGY_NOT_FOUND)));
+    }
 
+
+
+    @Override
+    public Mono<Technology> saveTechnology(Technology technology) {
         TechnologyEntity entity = technologyEntityMapper.toEntity(technology);
         return technologyRepository.save(entity)
                 .map(technologyEntityMapper::toModel)
