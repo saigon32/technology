@@ -4,7 +4,7 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("technology")
+@Table("technology.technology")
 @Getter
 @Setter
 @AllArgsConstructor
