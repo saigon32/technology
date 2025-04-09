@@ -10,5 +10,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface ITechnologyRepository extends ReactiveCrudRepository<TechnologyEntity, Long> {
     Mono<TechnologyEntity> findByName(String name);
+
     Flux<TechnologyEntity> findAllBy(PageRequest pageRequest);
 }

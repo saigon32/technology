@@ -37,5 +37,4 @@ public class TechnologyUseCase implements ITechnologyServicePort {
                 .thenMany(persistencePort.findAllTechnologiesPaged(page, size, sortOrder));
     }
 
-
 }

@@ -16,7 +16,6 @@ import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class TechnologyR2dbcAdapter implements ITechnologyPersistencePort {
-
     private final ITechnologyRepository technologyRepository;
     private final ITechnologyEntityMapper technologyEntityMapper;
 
@@ -26,8 +25,6 @@ public class TechnologyR2dbcAdapter implements ITechnologyPersistencePort {
                 .flatMap(technologyEntity -> Mono.just(technologyEntityMapper.toModel(technologyEntity)))
                 .switchIfEmpty(Mono.error(new DBException(DBErrorMessage.TECHNOLOGY_NOT_FOUND)));
     }
-
-
 
     @Override
     public Mono<Technology> saveTechnology(Technology technology) {
@@ -43,6 +40,7 @@ public class TechnologyR2dbcAdapter implements ITechnologyPersistencePort {
                 .flatMap(technologyEntity -> Mono.just(technologyEntityMapper.toModel(technologyEntity)))
                 .switchIfEmpty(Mono.error(new DBException(DBErrorMessage.TECHNOLOGY_NOT_FOUND)));
     }
+
     @Override
     public Flux<Technology> findAllTechnologiesPaged(int page, int size, String sortOrder) {
         Sort sort = sortOrder.equalsIgnoreCase("desc") ? Sort.by("name").descending() : Sort.by("name").ascending();
@@ -50,6 +48,5 @@ public class TechnologyR2dbcAdapter implements ITechnologyPersistencePort {
         return technologyRepository.findAllBy(pageRequest)
                 .map(technologyEntityMapper::toModel);
     }
-
 
 }

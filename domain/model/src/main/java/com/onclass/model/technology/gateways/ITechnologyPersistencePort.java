@@ -6,7 +6,10 @@ import reactor.core.publisher.Mono;
 
 public interface ITechnologyPersistencePort {
     Mono<Technology> findById(Long id);
+
     Mono<Technology> saveTechnology(Technology technology);
+
     Mono<Technology> findByName(String name);
+
     Flux<Technology> findAllTechnologiesPaged(int page, int size, String sortOrder);
 }
